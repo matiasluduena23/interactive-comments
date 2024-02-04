@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import CommentReply from './CommentReply';
 
 export default function Comment({ comment, updateComment }) {
     const {
@@ -8,7 +7,6 @@ export default function Comment({ comment, updateComment }) {
         score,
         user: { username },
         id,
-        replies,
     } = comment;
     const [activeReply, setActiveReply] = useState(false);
     const [like, setLike] = useState(false);
@@ -39,7 +37,7 @@ export default function Comment({ comment, updateComment }) {
     };
 
     return (
-        <article>
+        <article style={{ backgroundColor: 'grey' }}>
             <button onClick={handleLike}>+</button>
             <p>{score}</p>
             <button onClick={handleUnLike}>-</button>
@@ -47,25 +45,6 @@ export default function Comment({ comment, updateComment }) {
             <p>{createdAt}</p>
             <button onClick={() => setActiveReply(!activeReply)}>reply</button>
             <p>{content}</p>
-
-            {replies.length > 0 && (
-                <div>
-                    {replies.map((c) => (
-                        <CommentReply
-                            key={c.id}
-                            comment={c}
-                            updateComment={updateComment}
-                        />
-                    ))}
-                </div>
-            )}
-            {/* {replies.map((reply) => (
-                <Comment
-                    id={reply.id}
-                    comment={reply}
-                    updateComment={updateComment}
-                />
-            ))} */}
 
             {activeReply && (
                 <div className="flex">

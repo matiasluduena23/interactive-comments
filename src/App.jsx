@@ -1,12 +1,9 @@
-import { comments } from './data/data.json';
-import Comment from './components/Comment';
+import CommentsList from './components/CommentsList';
 
 function App() {
     return (
         <>
-            {comments.map((comment) => (
-                <Comment key={comment.id} comment={comment} />
-            ))}
+            <CommentsList />
         </>
     );
 }
