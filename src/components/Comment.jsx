@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import CommentReply from './CommentReply';
 
-export default function Comment({ comment, updateComment }) {
+export default function Comment({
+    comment,
+    updateComment,
+    addReply,
+    currentUser,
+}) {
     const {
         content,
         createdAt,
@@ -10,9 +15,11 @@ export default function Comment({ comment, updateComment }) {
         id,
         replies,
     } = comment;
+
     const [activeReply, setActiveReply] = useState(false);
     const [like, setLike] = useState(false);
     const [unlike, setUnLike] = useState(false);
+    const [textarea, setTextarea] = useState('@' + username + ', ');
 
     const handleLike = () => {
         if (like) return;
@@ -38,6 +45,23 @@ export default function Comment({ comment, updateComment }) {
         }
     };
 
+    const handleReply = () => {
+        const reply = {
+            content: textarea,
+            createdAt: Date.now(),
+            score: 0,
+            replyingTo: username,
+            user: {
+                image: currentUser.image,
+                username: currentUser.username,
+            },
+        };
+
+        addReply(id, reply);
+        setActiveReply(false);
+    };
+
+    console.log(replies);
     return (
         <article>
             <button onClick={handleLike}>+</button>
@@ -59,24 +83,17 @@ export default function Comment({ comment, updateComment }) {
                     ))}
                 </div>
             )}
-            {/* {replies.map((reply) => (
-                <Comment
-                    id={reply.id}
-                    comment={reply}
-                    updateComment={updateComment}
-                />
-            ))} */}
-
             {activeReply && (
                 <div className="flex">
                     <img src="" alt="image" />
                     <textarea
                         name="postContent"
-                        defaultValue={'@' + username + ', '}
                         rows={4}
                         cols={40}
+                        value={textarea}
+                        onChange={(e) => setTextarea(e.target.value)}
                     />
-                    <button>Reply</button>
+                    <button onClick={handleReply}>Reply</button>
                 </div>
             )}
         </article>
