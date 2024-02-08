@@ -47,18 +47,7 @@ export default function Comment({ comment, idComment, updateReply }) {
       <button onClick={() => setActiveReply(!activeReply)}>reply</button>
       <p>{content}</p>
 
-      {activeReply && (
-        <div className="flex">
-          <img src="" alt="image" />
-          <textarea
-            name="postContent"
-            defaultValue={"@" + username + ", "}
-            rows={4}
-            cols={40}
-          />
-          <button>Reply</button>
-        </div>
-      )}
+      {activeReply && <Reply handleReply={handleReply} username={username} />}
     </article>
   );
 }

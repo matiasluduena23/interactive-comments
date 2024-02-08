@@ -31,8 +31,6 @@ export default function CommentsList() {
     });
   };
 
-  console.log(tasks);
-
   return (
     <>
       {tasks.map((comment) => (

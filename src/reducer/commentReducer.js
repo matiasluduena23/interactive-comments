@@ -45,6 +45,9 @@ export default function commentReducer(comments, action) {
       });
     }
 
+    case "addReplytoReply": {
+    }
+
     default: {
       throw Error("Unknown action: " + action.type);
     }

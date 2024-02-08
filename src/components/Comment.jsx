@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CommentReply from "./CommentReply";
+import Reply from "./Reply";
 
 export default function Comment({
   comment,
@@ -19,20 +20,7 @@ export default function Comment({
 
   const [activeReply, setActiveReply] = useState(false);
   const [like, setLike] = useState("unlike");
-  const [unlike, setUnLike] = useState(false);
   const [textarea, setTextarea] = useState("@" + username + ", ");
-
-  // const handleLike = () => {
-  //   if (like) return;
-  //   if (unlike) {
-  //     setUnLike(false);
-
-  //     updateComment(id, { ...comment, score: score + 1 });
-  //   } else if (!unlike) {
-  //     setLike(true);
-  //     updateComment(id, { ...comment, score: score + 1 });
-  //   }
-  // };
 
   const handleLike = () => {
     if (like === "like") return;
@@ -94,19 +82,7 @@ export default function Comment({
           ))}
         </div>
       )}
-      {activeReply && (
-        <div className="flex">
-          <img src="" alt="image" />
-          <textarea
-            name="postContent"
-            rows={4}
-            cols={40}
-            value={textarea}
-            onChange={(e) => setTextarea(e.target.value)}
-          />
-          <button onClick={handleReply}>Reply</button>
-        </div>
-      )}
+      {activeReply && <Reply handleReply={handleReply} username={username} />}
     </article>
   );
 }
