@@ -46,6 +46,32 @@ export default function commentReducer(comments, action) {
     }
 
     case "addReplytoReply": {
+      return comments.map((c) => {
+        if (c.id === action.id) {
+          return {
+            ...c,
+            replies: c.replies.map((r) => {
+              console.log("object");
+
+              if (r.id === action.idReply) {
+                console.log("update");
+                return {
+                  ...r.replies,
+                  replies: [
+                    ...r.replies,
+                    { id: c.replies.length + 1, ...action.reply },
+                  ],
+                };
+              } else {
+                console.log("no update");
+                return r;
+              }
+            }),
+          };
+        } else {
+          return c;
+        }
+      });
     }
 
     default: {

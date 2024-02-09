@@ -1,14 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import CommentReply from "./CommentReply";
 import Reply from "./Reply";
+import { CommetsDistpachContext } from "../context/ComentContext";
+import { useLike, useUnLike } from "../hooks/useLike";
 
-export default function Comment({
-  comment,
-  updateComment,
-  addReply,
-  currentUser,
-  updateReply,
-}) {
+export default function Comment({ comment, currentUser }) {
+  const dispatch = useContext(CommetsDistpachContext);
   const {
     content,
     createdAt,
@@ -23,25 +20,23 @@ export default function Comment({
   const [textarea, setTextarea] = useState("@" + username + ", ");
 
   const handleLike = () => {
-    if (like === "like") return;
-    if (like === "unlike") {
+    if (useLike(like, setLike)) {
       updateComment(id, { ...comment, score: score + 1 });
-      setLike("like");
-    } else if (like === "dislike") {
-      updateComment(id, { ...comment, score: score + 1 });
-      setLike("unlike");
     }
   };
 
   const handleUnLike = () => {
-    if (like === "dislike") return;
-    if (like === "like") {
+    if (useUnLike(like, setLike)) {
       updateComment(id, { ...comment, score: score - 1 });
-      setLike("unlike");
-    } else if (like === "unlike") {
-      updateComment(id, { ...comment, score: score - 1 });
-      setLike("dislike");
     }
+  };
+
+  const updateComment = (id, comment) => {
+    dispatch({
+      type: "updateComment",
+      id,
+      comment,
+    });
   };
 
   const handleReply = () => {
@@ -50,16 +45,22 @@ export default function Comment({
       createdAt: Date.now(),
       score: 0,
       replyingTo: username,
+      replies: [],
       user: {
         image: currentUser.image,
         username: currentUser.username,
       },
     };
 
-    addReply(id, reply);
+    dispatch({
+      type: "addReply",
+      id,
+      reply,
+    });
     setActiveReply(false);
   };
 
+  console.log(comment);
   return (
     <article>
       <button onClick={handleLike}>+</button>
@@ -77,7 +78,7 @@ export default function Comment({
               key={c.id}
               idComment={id}
               comment={c}
-              updateReply={updateReply}
+              currentUser={currentUser}
             />
           ))}
         </div>
