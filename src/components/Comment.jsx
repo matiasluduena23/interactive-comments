@@ -1,48 +1,46 @@
-import { useState } from 'react';
+/* eslint-disable react/prop-types */
+import { useContext, useState } from 'react';
 import CommentReply from './CommentReply';
+import Reply from './Reply';
+import { CommetsDistpachContext } from '../context/ComentContext';
+import { setLike, setUnLike } from '../hooks/useLike';
+import plusSvg from '../assets/icon-plus.svg';
+import minusSvg from '../assets/icon-minus.svg';
+import replySvg from '../assets/icon-reply.svg';
 
-export default function Comment({
-    comment,
-    updateComment,
-    addReply,
-    currentUser,
-}) {
+export default function Comment({ comment, currentUser }) {
+    const dispatch = useContext(CommetsDistpachContext);
     const {
         content,
         createdAt,
         score,
-        user: { username },
+        user: { image, username },
         id,
         replies,
     } = comment;
 
     const [activeReply, setActiveReply] = useState(false);
-    const [like, setLike] = useState(false);
-    const [unlike, setUnLike] = useState(false);
+    const [liked, setLiked] = useState('unlike');
     const [textarea, setTextarea] = useState('@' + username + ', ');
 
     const handleLike = () => {
-        if (like) return;
-        if (unlike) {
-            setUnLike(false);
-
-            updateComment(id, { ...comment, score: score + 1 });
-        } else if (!unlike) {
-            setLike(true);
-            //score set one up
+        if (setLike(liked, setLiked)) {
             updateComment(id, { ...comment, score: score + 1 });
         }
     };
 
     const handleUnLike = () => {
-        if (unlike) return;
-        if (like) {
-            setLike(false);
-            updateComment(id, { ...comment, score: score - 1 });
-        } else if (!like) {
-            setUnLike(true);
+        if (setUnLike(liked, setLiked)) {
             updateComment(id, { ...comment, score: score - 1 });
         }
+    };
+
+    const updateComment = (id, comment) => {
+        dispatch({
+            type: 'updateComment',
+            id,
+            comment,
+        });
     };
 
     const handleReply = () => {
@@ -51,51 +49,76 @@ export default function Comment({
             createdAt: Date.now(),
             score: 0,
             replyingTo: username,
+            replies: [],
             user: {
                 image: currentUser.image,
                 username: currentUser.username,
             },
         };
 
-        addReply(id, reply);
+        dispatch({
+            type: 'addReply',
+            id,
+            reply,
+        });
         setActiveReply(false);
     };
 
-    console.log(replies);
+    console.log(comment);
     return (
-        <article>
-            <button onClick={handleLike}>+</button>
-            <p>{score}</p>
-            <button onClick={handleUnLike}>-</button>
-            <p>{username}</p>
-            <p>{createdAt}</p>
-            <button onClick={() => setActiveReply(!activeReply)}>reply</button>
-            <p>{content}</p>
+        <section>
+            <article className="comment">
+                <div className="col-1">
+                    <div className="wrap-buttons">
+                        <button className="button-like" onClick={handleLike}>
+                            <img src={plusSvg} alt="plus image" />
+                        </button>
+                        <p className="score">{score}</p>
+                        <button className="button-like" onClick={handleUnLike}>
+                            <img src={minusSvg} alt="minus image" />
+                        </button>
+                    </div>
+                </div>
+                <div className="col-2">
+                    <header>
+                        <div className="header-col-1">
+                            <img
+                                className="header-col-1-img"
+                                src={image.png}
+                                alt="Profile photo"
+                            />
+                            <p className="header-col-1-username">{username}</p>
+                            <p className="header-col-1-date">{createdAt}</p>
+                        </div>
+                        <div className="header-col-2">
+                            <button
+                                className="btn-reply"
+                                onClick={() => setActiveReply(!activeReply)}
+                            >
+                                <img src={replySvg} alt="reply image" />
+                                <span>Reply</span>
+                            </button>
+                        </div>
+                    </header>
+                    <p className="comment-text">{content}</p>
+                </div>
+            </article>
 
             {replies.length > 0 && (
                 <div>
                     {replies.map((c) => (
                         <CommentReply
                             key={c.id}
+                            idComment={id}
                             comment={c}
-                            updateComment={updateComment}
+                            currentUser={currentUser}
                         />
                     ))}
                 </div>
             )}
             {activeReply && (
-                <div className="flex">
-                    <img src="" alt="image" />
-                    <textarea
-                        name="postContent"
-                        rows={4}
-                        cols={40}
-                        value={textarea}
-                        onChange={(e) => setTextarea(e.target.value)}
-                    />
-                    <button onClick={handleReply}>Reply</button>
-                </div>
+                <Reply handleReply={handleReply} username={username} />
             )}
-        </article>
+        </section>
     );
 }
