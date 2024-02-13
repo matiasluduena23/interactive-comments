@@ -1,63 +1,90 @@
-import { useState } from 'react';
+import { useState, useContext } from "react";
+import { CommetsDistpachContext } from "../context/ComentContext";
+import { useLike, useUnLike } from "../hooks/useLike";
+import Reply from "./Reply";
+import ReplyToReply from "./ReplyToReply";
 
-export default function Comment({ comment, updateComment }) {
-    const {
-        content,
-        createdAt,
-        score,
-        user: { username },
-        id,
-    } = comment;
-    const [activeReply, setActiveReply] = useState(false);
-    const [like, setLike] = useState(false);
-    const [unlike, setUnLike] = useState(false);
+export default function Comment({ comment, idComment, currentUser }) {
+  const dispatch = useContext(CommetsDistpachContext);
+  const {
+    content,
+    createdAt,
+    score,
+    replies,
+    user: { username },
+    id,
+  } = comment;
 
-    const handleLike = () => {
-        if (like) return;
-        if (unlike) {
-            setUnLike(false);
+  const [textarea, setTextarea] = useState("@" + username + ", ");
 
-            updateComment(id, { ...comment, score: score + 1 });
-        } else if (!unlike) {
-            setLike(true);
-            //score set one up
-            updateComment(id, { ...comment, score: score + 1 });
-        }
+  const [activeReply, setActiveReply] = useState(false);
+  const [like, setLike] = useState(false);
+
+  const handleLike = () => {
+    if (useLike(like, setLike)) {
+      updateReply(idComment, id, { ...comment, score: score + 1 });
+    }
+  };
+
+  const handleUnLike = () => {
+    if (useUnLike(like, setLike)) {
+      updateReply(idComment, id, { ...comment, score: score - 1 });
+    }
+  };
+
+  const updateReply = (id, idReply, reply) => {
+    dispatch({
+      type: "updateReply",
+      id,
+      idReply,
+      reply,
+    });
+  };
+
+  const handleReply = () => {
+    const reply = {
+      content: textarea,
+      createdAt: Date.now(),
+      score: 0,
+      replyingTo: username,
+      user: {
+        image: currentUser.image,
+        username: currentUser.username,
+      },
     };
 
-    const handleUnLike = () => {
-        if (unlike) return;
-        if (like) {
-            setLike(false);
-            updateComment(id, { ...comment, score: score - 1 });
-        } else if (!like) {
-            setUnLike(true);
-            updateComment(id, { ...comment, score: score - 1 });
-        }
-    };
+    dispatch({
+      type: "addReplytoReply",
+      idComment,
+      id,
+      reply,
+    });
+    setActiveReply(false);
+  };
 
-    return (
-        <article style={{ backgroundColor: 'grey' }}>
-            <button onClick={handleLike}>+</button>
-            <p>{score}</p>
-            <button onClick={handleUnLike}>-</button>
-            <p>{username}</p>
-            <p>{createdAt}</p>
-            <button onClick={() => setActiveReply(!activeReply)}>reply</button>
-            <p>{content}</p>
+  return (
+    <article style={{ backgroundColor: "grey" }}>
+      <button onClick={handleLike}>+</button>
+      <p>{score}</p>
+      <button onClick={handleUnLike}>-</button>
+      <p>{username}</p>
+      <p>{createdAt}</p>
+      <button onClick={() => setActiveReply(!activeReply)}>reply</button>
+      <p>{content}</p>
 
-            {activeReply && (
-                <div className="flex">
-                    <img src="" alt="image" />
-                    <textarea
-                        name="postContent"
-                        defaultValue={'@' + username + ', '}
-                        rows={4}
-                        cols={40}
-                    />
-                    <button>Reply</button>
-                </div>
-            )}
-        </article>
-    );
+      {replies && replies.length > 0 && (
+        <div>
+          {replies.map((c) => (
+            <ReplyToReply
+              key={c.id}
+              idComment={id}
+              comment={c}
+              currentUser={currentUser}
+            />
+          ))}
+        </div>
+      )}
+      {activeReply && <Reply handleReply={handleReply} username={username} />}
+    </article>
+  );
 }
