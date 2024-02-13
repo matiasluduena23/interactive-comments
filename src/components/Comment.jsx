@@ -64,7 +64,6 @@ export default function Comment({ comment, currentUser }) {
         setActiveReply(false);
     };
 
-    console.log(comment);
     return (
         <section>
             <article className="comment">
@@ -87,12 +86,14 @@ export default function Comment({ comment, currentUser }) {
                                 src={image.png}
                                 alt="Profile photo"
                             />
-                            <p className="header-col-1-username">{username}</p>
+                            <a className="header-col-1-username" href="#">
+                                {username}
+                            </a>
                             <p className="header-col-1-date">{createdAt}</p>
                         </div>
                         <div className="header-col-2">
                             <button
-                                className="btn-reply"
+                                className="btn btn-reply"
                                 onClick={() => setActiveReply(!activeReply)}
                             >
                                 <img src={replySvg} alt="reply image" />
@@ -103,21 +104,27 @@ export default function Comment({ comment, currentUser }) {
                     <p className="comment-text">{content}</p>
                 </div>
             </article>
-
-            {replies.length > 0 && (
-                <div>
-                    {replies.map((c) => (
-                        <CommentReply
-                            key={c.id}
-                            idComment={id}
-                            comment={c}
-                            currentUser={currentUser}
-                        />
-                    ))}
-                </div>
-            )}
+            <div className="replies">
+                {replies.length > 0 && (
+                    <div>
+                        {replies.map((c) => (
+                            <CommentReply
+                                key={c.id}
+                                idComment={id}
+                                comment={c}
+                                currentUser={currentUser}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
             {activeReply && (
-                <Reply handleReply={handleReply} username={username} />
+                <Reply
+                    handleReply={handleReply}
+                    textarea={textarea}
+                    setTextarea={setTextarea}
+                    image={currentUser.image}
+                />
             )}
         </section>
     );

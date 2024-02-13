@@ -44,6 +44,7 @@ section {
     grid-template-columns: 30px 1fr;
     padding: 2rem;
     gap: 1rem;
+    border-radius: 7px;
 }
 
 .wrap-buttons {
@@ -88,28 +89,98 @@ button {
 .header-col-1-username {
     color: var(--dark-blue);
     font-weight: 600;
+    text-decoration: none;
 }
 
 .header-col-1-date {
     color: var(--grayish-blue);
 }
 
-.btn-reply {
+.header-tag-current-user {
+    background-color: var(--moderate-blue);
+    color: white;
+    padding: 0 0.3rem;
+    border-radius: 2px;
+}
+
+.wrap-btn {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
     display: flex;
     gap: 0.4rem;
     align-items: center;
     font-family: inherit;
 }
 
-.btn-reply:hover span {
-    color: var(--light-grayish-blue);
+.btn span {
+    font-weight: 600;
+}
+
+.btn:hover span,
+.btn:hover img {
+    opacity: 0.5;
 }
 
 .btn-reply span {
-    color: var(--dark-blue);
-    font-weight: 600;
+    color: var(--moderate-blue);
+}
+
+.btn-delete span {
+    color: var(--soft-red);
+}
+
+.btn-edit span {
+    color: var(--moderate-blue);
 }
 
 .comment-text {
     color: var(--grayish-blue);
+}
+
+.replies {
+    border-left: 1px solid var(--light-grayish-blue);
+    margin-left: 2rem;
+    margin-block: 1rem;
+    padding-left: 2rem;
+}
+
+/* Reply styles */
+
+.reply {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 30px 1fr max-content;
+    align-items: start;
+    gap: 1rem;
+    background-color: white;
+    margin-top: 0.5rem;
+    border-radius: 7px;
+}
+
+.reply-img {
+    width: 35px;
+}
+
+.reply-textarea {
+    border-radius: 10px;
+    border: 1px solid var(--dark-blue);
+    padding: 0.5rem;
+    font-family: inherit;
+    resize: none;
+}
+
+.reply-btn {
+    background-color: var(--moderate-blue);
+    color: white;
+    font-weight: 600;
+    padding: 0.7rem 1.5rem;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.reply-btn:hover {
+    opacity: 0.4;
 }
