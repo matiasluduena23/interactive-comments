@@ -1,42 +1,42 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
-import Reply from './Reply';
+import { useState, useContext } from "react";
+import CommentBody from "./CommentBody";
+import { CommetsDistpachContext } from "../context/ComentContext";
 
-export default function Comment({ comment, idComment, currentUser }) {
-    const {
-        content,
-        createdAt,
-        score,
-        user: { username },
-    } = comment;
+export default function Comment({ idReply, comment, idComment }) {
+  const { id } = comment;
+  const dispatch = useContext(CommetsDistpachContext);
 
-    const [textarea, setTextarea] = useState('@' + username + ', ');
-    const [activeReply, setActiveReply] = useState(false);
-    const [liked, setLiked] = useState(false);
+  const [activeReply, setActiveReply] = useState(false);
 
-    const handleLike = () => {};
+  const deleteReplytoReply = () => {
+    dispatch({
+      type: "deleteReplytoReply",
+      idComment,
+      idReply,
+      id,
+    });
+  };
 
-    const handleUnLike = () => {};
-    const handleReply = () => {};
+  const updateReply = (score) => {
+    const updateReply = { ...comment, score: score };
+    dispatch({
+      type: "updateReplytoReply",
+      idComment,
+      idReply,
+      id,
+      updateReply,
+    });
+  };
 
-    return (
-        <article style={{ backgroundColor: 'lightblue' }}>
-            <button onClick={handleLike}>+</button>
-            <p>{score}</p>
-            <button onClick={handleUnLike}>-</button>
-            <p>{username}</p>
-            <p>{createdAt}</p>
-            <button onClick={() => setActiveReply(!activeReply)}>reply</button>
-            <p>{content}</p>
-
-            {activeReply && (
-                <Reply
-                    handleReply={handleReply}
-                    image={currentUser.image}
-                    textarea={textarea}
-                    setTextarea={setTextarea}
-                />
-            )}
-        </article>
-    );
+  return (
+    <section>
+      <CommentBody
+        updateComment={updateReply}
+        deleteReply={deleteReplytoReply}
+        setActiveReply={() => setActiveReply(!activeReply)}
+        comment={comment}
+      />
+    </section>
+  );
 }
