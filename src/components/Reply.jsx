@@ -1,10 +1,17 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { CurrentUserContext } from '../context/ComentContext';
+import { useContext } from 'react';
 
-export default function Reply({ handleReply, image, textarea, setTextarea }) {
+export default function Reply({ handleReply, textarea, setTextarea }) {
+    const currentUser = useContext(CurrentUserContext);
+
     return (
         <article className="reply">
-            <img className="reply-img" src={image.png} alt="image" />
+            <img
+                className="reply-img"
+                src={currentUser.image.png}
+                alt="image"
+            />
             <textarea
                 className="reply-textarea"
                 name="postContent"
