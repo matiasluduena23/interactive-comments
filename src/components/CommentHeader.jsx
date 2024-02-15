@@ -9,6 +9,7 @@ export default function CommentHeader({
   comment,
   setActiveReply,
   deleteReply,
+  setEdit,
 }) {
   const currentUser = useContext(CurrentUserContext);
   const {
@@ -35,7 +36,7 @@ export default function CommentHeader({
               <img src={deleteSvg} alt="reply image" />
               <span>Delete</span>
             </button>
-            <button className="btn btn-edit">
+            <button className="btn btn-edit" onClick={setEdit}>
               <img src={editSvg} alt="reply image" />
               <span>Edit</span>
             </button>

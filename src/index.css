@@ -1,186 +1,208 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 
 *,
 *::after,
 *::before {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
-    --moderate-blue: hsl(238, 40%, 52%);
-    --soft-red: hsl(358, 79%, 66%);
-    --light-grayish-blue: hsl(239, 57%, 85%);
-    --pale-red: hsl(357, 100%, 86%);
+  --moderate-blue: #5457b6;
+  --soft-red: hsl(358, 79%, 66%);
+  --light-grayish-blue: hsl(239, 57%, 85%);
+  --pale-red: hsl(357, 100%, 86%);
 
-    --dark-blue: hsl(212, 24%, 26%);
-    --grayish-blue: hsl(211, 10%, 45%);
-    --light-gray: hsl(223, 19%, 93%);
-    --very-light-gray: hsl(228, 33%, 97%);
+  --dark-blue: #324152;
+  --grayish-blue: hsl(211, 10%, 45%);
+  --light-gray: hsl(223, 19%, 93%);
+  --very-light-gray: hsl(228, 33%, 97%);
 }
 
 body {
-    font-family: 'Rubik', sans-serif;
-    font-size: 16px;
-    background-color: var(--very-light-gray);
-    margin-top: 4rem;
+  font-family: "Rubik", sans-serif;
+  font-size: 16px;
+  background-color: var(--very-light-gray);
+  margin-top: 4rem;
 }
 
 .container {
-    max-width: 1100px;
-    width: 90%;
-    margin-inline: auto;
+  max-width: 1100px;
+  width: 90%;
+  margin-inline: auto;
 }
 
 section {
-    background-color: var(--very-light-gray);
-    margin-bottom: 1rem;
+  background-color: var(--very-light-gray);
+  margin-bottom: 1rem;
 }
 
 .comment {
-    background-color: white;
-    display: grid;
-    grid-template-columns: 30px 1fr;
-    padding: 2rem;
-    gap: 1rem;
-    border-radius: 7px;
+  background-color: white;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  padding: 2rem;
+  gap: 1rem;
+  border-radius: 7px;
 }
 
 .wrap-buttons {
-    background-color: var(--light-gray);
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-    padding-block: 0.8rem;
+  background-color: var(--light-gray);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding-block: 0.8rem;
+}
+
+.like-active img {
+  filter: invert(70%) sepia(2%) saturate(1007%) hue-rotate(172deg)
+    brightness(99%) contrast(85%);
 }
 
 button {
-    border: none;
-    cursor: pointer;
-    background-color: transparent;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
 }
 
 .score {
-    color: var(--moderate-blue);
-    font-weight: 500;
+  color: var(--moderate-blue);
+  font-weight: 500;
 }
 
 .col-2 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .header-col-1 {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
 }
 
 .header-col-1-img {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
 .header-col-1-username {
-    color: var(--dark-blue);
-    font-weight: 600;
-    text-decoration: none;
+  color: var(--dark-blue);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .header-col-1-date {
-    color: var(--grayish-blue);
+  color: var(--grayish-blue);
 }
 
 .header-tag-current-user {
-    background-color: var(--moderate-blue);
-    color: white;
-    padding: 0 0.3rem;
-    border-radius: 2px;
+  background-color: var(--moderate-blue);
+  color: white;
+  padding: 0 0.3rem;
+  border-radius: 2px;
 }
 
 .wrap-btn {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .btn {
-    display: flex;
-    gap: 0.4rem;
-    align-items: center;
-    font-family: inherit;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  font-family: inherit;
 }
 
 .btn span {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .btn:hover span,
 .btn:hover img {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 .btn-reply span {
-    color: var(--moderate-blue);
+  color: var(--moderate-blue);
 }
 
 .btn-delete span {
-    color: var(--soft-red);
+  color: var(--soft-red);
 }
 
 .btn-edit span {
-    color: var(--moderate-blue);
+  color: var(--moderate-blue);
 }
 
 .comment-text {
-    color: var(--grayish-blue);
+  color: var(--grayish-blue);
+}
+
+.comment-text-username {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--moderate-blue);
+  display: inline;
 }
 
 .replies {
-    border-left: 1px solid var(--light-grayish-blue);
-    margin-left: 2rem;
-    margin-block: 1rem;
-    padding-left: 2rem;
+  border-left: 1px solid var(--light-grayish-blue);
+  margin-left: 2rem;
+  margin-block: 1rem;
+  padding-left: 2rem;
 }
 
 /* Reply styles */
 
 .reply {
-    padding: 2rem;
-    display: grid;
-    grid-template-columns: 30px 1fr max-content;
-    align-items: start;
-    gap: 1rem;
-    background-color: white;
-    margin-top: 0.5rem;
-    border-radius: 7px;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 30px 1fr max-content;
+  align-items: start;
+  gap: 1rem;
+  background-color: white;
+  margin-top: 0.5rem;
+  border-radius: 7px;
 }
 
 .reply-img {
-    width: 35px;
+  width: 35px;
 }
 
 .reply-textarea {
-    border-radius: 10px;
-    border: 1px solid var(--dark-blue);
-    padding: 0.5rem;
-    font-family: inherit;
-    resize: none;
+  border-radius: 10px;
+  border: 1px solid var(--dark-blue);
+  padding: 0.5rem;
+  font-family: inherit;
+  resize: none;
 }
 
 .reply-btn {
-    background-color: var(--moderate-blue);
-    color: white;
-    font-weight: 600;
-    padding: 0.7rem 1.5rem;
-    border-radius: 5px;
-    text-transform: uppercase;
+  background-color: var(--moderate-blue);
+  color: white;
+  font-weight: 600;
+  padding: 0.7rem 1.5rem;
+  border-radius: 5px;
+  text-transform: uppercase;
 }
 
 .reply-btn:hover {
-    opacity: 0.4;
+  opacity: 0.4;
+}
+
+.update-reply {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 1rem;
+}
+.update-reply textarea {
+  width: 100%;
 }

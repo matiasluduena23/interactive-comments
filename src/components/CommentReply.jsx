@@ -7,6 +7,7 @@ import {
 import Reply from "./Reply";
 import ReplyToReply from "./ReplyToReply";
 import CommentBody from "./CommentBody";
+import { formatContentString } from "../logic/util";
 
 export default function Comment({ comment, idComment }) {
   const dispatch = useContext(CommetsDistpachContext);
@@ -20,8 +21,8 @@ export default function Comment({ comment, idComment }) {
   const [textarea, setTextarea] = useState("@" + username + ", ");
   const [activeReply, setActiveReply] = useState(false);
 
-  const updateReply = (score) => {
-    const updateReply = { ...comment, score: score };
+  const updateReply = (field, data) => {
+    const updateReply = { ...comment, [field]: data };
     dispatch({
       type: "updateReply",
       idComment,
@@ -39,9 +40,10 @@ export default function Comment({ comment, idComment }) {
   };
 
   const handleReply = () => {
+    const newContent = formatContentString(textarea, username);
     const reply = {
-      content: textarea,
-      createdAt: Date.now(),
+      content: newContent,
+      createdAt: "recently",
       score: 0,
       replyingTo: username,
       user: {
