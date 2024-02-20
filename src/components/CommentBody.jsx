@@ -6,13 +6,16 @@ import { formatContentString } from "../logic/util";
 
 export default function CommentBody({
   updateComment = null,
-  deleteReply = null,
+  deleteComment = null,
   comment,
   setActiveReply,
 }) {
   const { content, score, replyingTo } = comment;
   const [edit, setEdit] = useState(false);
-  const [textarea, setTextarea] = useState(`@${replyingTo}, ${content}`);
+  const initialTextareAreaValue = replyingTo
+    ? `@${replyingTo}, ${content}`
+    : `${content}`;
+  const [textarea, setTextarea] = useState(initialTextareAreaValue);
 
   const formatComment = replyingTo ? (
     <>
@@ -29,7 +32,7 @@ export default function CommentBody({
 
   const handleUpdateClick = () => {
     const formatContent = formatContentString(textarea, replyingTo);
-    console.log(formatContent);
+
     updateComment(["content"], formatContent);
     setEdit(false);
   };
@@ -43,7 +46,7 @@ export default function CommentBody({
         <CommentHeader
           comment={comment}
           setActiveReply={setActiveReply}
-          deleteReply={deleteReply}
+          deleteComment={deleteComment}
           setEdit={() => setEdit(!edit)}
         />
 

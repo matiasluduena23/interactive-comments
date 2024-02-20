@@ -66,7 +66,7 @@ export default function Comment({ comment, idComment }) {
     <section>
       <CommentBody
         updateComment={updateReply}
-        deleteReply={() => deleteReply(comment.id)}
+        deleteComment={() => deleteReply(comment.id)}
         setActiveReply={() => setActiveReply(!activeReply)}
         comment={comment}
       />

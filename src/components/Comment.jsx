@@ -9,7 +9,7 @@ import {
 import CommentBody from "./CommentBody";
 import { formatContentString } from "../logic/util";
 
-export default function Comment({ comment }) {
+export default function Comment({ comment, deleteComment }) {
   const dispatch = useContext(CommetsDistpachContext);
   const currentUser = useContext(CurrentUserContext);
   const {
@@ -60,6 +60,7 @@ export default function Comment({ comment }) {
         updateComment={updateComment}
         setActiveReply={() => setActiveReply(!activeReply)}
         comment={comment}
+        deleteComment={() => deleteComment(id)}
       />
       <div className="replies">
         {replies.length > 0 && (

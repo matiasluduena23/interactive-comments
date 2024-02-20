@@ -8,7 +8,7 @@ import { CurrentUserContext } from "../context/ComentContext";
 export default function CommentHeader({
   comment,
   setActiveReply,
-  deleteReply,
+  deleteComment,
   setEdit,
 }) {
   const currentUser = useContext(CurrentUserContext);
@@ -32,7 +32,7 @@ export default function CommentHeader({
       <div className="header-col-2">
         {username === currentUser.username ? (
           <div className="wrap-btn">
-            <button className="btn btn-delete" onClick={deleteReply}>
+            <button className="btn btn-delete" onClick={deleteComment}>
               <img src={deleteSvg} alt="reply image" />
               <span>Delete</span>
             </button>

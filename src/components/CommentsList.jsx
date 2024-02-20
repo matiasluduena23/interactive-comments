@@ -1,23 +1,21 @@
-import { comments, currentUser } from "../data/data.json";
 import Comment from "./Comment";
-import commentReducer from "../reducer/commentReducer";
-import { useReducer, useState } from "react";
+import { useState, useContext } from "react";
+import Reply from "./Reply";
 import {
-  CommetsDistpachContext,
   CommetsContext,
+  CommetsDistpachContext,
   CurrentUserContext,
 } from "../context/ComentContext";
-import Reply from "./Reply";
 
 export default function CommentsList() {
-  const [tasks, dispatch] = useReducer(commentReducer, comments);
+  const dispatch = useContext(CommetsDistpachContext);
+  const currentUser = useContext(CurrentUserContext);
+  const tasks = useContext(CommetsContext);
   const [textarea, setTextarea] = useState();
 
   const addComment = () => {
-    const newContent = formatContentString(textarea, username);
-
     const newComment = {
-      content: newContent,
+      content: textarea,
       createdAt: "recently",
       score: 0,
       replies: [],
@@ -29,27 +27,32 @@ export default function CommentsList() {
 
     dispatch({
       type: "addComment",
-      id,
       newComment,
     });
-    setActiveReply(false);
-    setTextarea("@" + username + ", ");
+    setTextarea("");
+  };
+
+  const deleteComment = (id) => {
+    dispatch({
+      type: "deleteComment",
+      id,
+    });
   };
 
   return (
-    <CommetsContext.Provider value={tasks}>
-      <CurrentUserContext.Provider value={currentUser}>
-        <CommetsDistpachContext.Provider value={dispatch}>
-          {tasks.map((comment) => (
-            <Comment key={comment.id} comment={comment} />
-          ))}
-          <Reply
-            textarea={textarea}
-            setTextarea={setTextarea}
-            handleReply={addComment}
-          />
-        </CommetsDistpachContext.Provider>
-      </CurrentUserContext.Provider>
-    </CommetsContext.Provider>
+    <>
+      {tasks.map((comment) => (
+        <Comment
+          key={comment.id}
+          comment={comment}
+          deleteComment={deleteComment}
+        />
+      ))}
+      <Reply
+        textarea={textarea}
+        setTextarea={setTextarea}
+        handleReply={addComment}
+      />
+    </>
   );
 }

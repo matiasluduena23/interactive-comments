@@ -1,5 +1,10 @@
 export default function commentReducer(comments, action) {
   switch (action.type) {
+    case "addComment": {
+      console.log(comments);
+      return [...comments, { id: comments.length + 1, ...action.newComment }];
+    }
+
     case "updateComment": {
       return comments.map((c) => {
         if (c.id === action.id) {
@@ -8,6 +13,10 @@ export default function commentReducer(comments, action) {
           return c;
         }
       });
+    }
+
+    case "deleteComment": {
+      return comments.filter((c) => c.id !== action.id);
     }
 
     case "addReply": {
